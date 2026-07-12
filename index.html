@@ -12,32 +12,37 @@
   </head>
   <body>
     <div class="ambient-sky" aria-hidden="true">
-      <span class="ambient-shooting-star ambient-shooting-star-a"></span>
-      <span class="ambient-shooting-star ambient-shooting-star-b"></span>
-      <span class="ambient-shooting-star ambient-shooting-star-c"></span>
+      <div class="star-field" id="star-field"></div>
+      <span class="meteor meteor-a"></span>
+      <span class="meteor meteor-b"></span>
+      <span class="meteor meteor-c"></span>
+      <span class="meteor meteor-d"></span>
     </div>
 
     <main class="page-shell">
       <section class="hero" aria-label="Начало">
-        <div class="night-sky" aria-hidden="true">
-          <span class="star star-a"></span>
-          <span class="star star-b"></span>
-          <span class="star star-c"></span>
-          <span class="star star-d"></span>
-          <span class="star star-e"></span>
-          <span class="star star-f"></span>
-          <span class="star star-g"></span>
-          <span class="star star-h"></span>
-          <span class="star star-i"></span>
-          <span class="star star-j"></span>
-          <span class="star star-k"></span>
-          <span class="star star-l"></span>
-          <span class="star star-m"></span>
-          <span class="star star-n"></span>
-          <span class="star star-o"></span>
-          <span class="star star-p"></span>
-          <span class="shooting-star shooting-star-a"></span>
-          <span class="shooting-star shooting-star-b"></span>
+        <div class="hero-constellations" aria-hidden="true">
+          <svg class="constellation constellation-taurus" viewBox="0 0 329 333">
+            <path class="constellation-line" pathLength="1" d="M319.5 9.5 260.5 119.5 199.5 161.5 136.5 180.5 9.5 256.5 M199.5 161.5 170.5 209.5 68.5 323.5"></path>
+            <circle class="constellation-star constellation-star-major" cx="9.5" cy="256.5" r="4"></circle>
+            <circle class="constellation-star constellation-star-major" cx="68.5" cy="323.5" r="3.8"></circle>
+            <circle class="constellation-star" cx="136.5" cy="180.5" r="2.7"></circle>
+            <circle class="constellation-star" cx="170.5" cy="209.5" r="2.7"></circle>
+            <circle class="constellation-star constellation-star-major" cx="199.5" cy="161.5" r="4.7"></circle>
+            <circle class="constellation-star" cx="260.5" cy="119.5" r="2.8"></circle>
+            <circle class="constellation-star constellation-star-major" cx="319.5" cy="9.5" r="4.2"></circle>
+            <text class="constellation-label" x="245" y="250" text-anchor="middle">Taurus</text>
+          </svg>
+
+          <svg class="constellation constellation-cancer" viewBox="0 0 303 244">
+            <path class="constellation-line" pathLength="1" d="M293.5 9.5 196.5 91.5 117.5 110.5 54.5 234.5 M117.5 110.5 9.5 91.5"></path>
+            <circle class="constellation-star constellation-star-major" cx="9.5" cy="91.5" r="4"></circle>
+            <circle class="constellation-star constellation-star-major" cx="54.5" cy="234.5" r="3.8"></circle>
+            <circle class="constellation-star constellation-star-major" cx="117.5" cy="110.5" r="4.7"></circle>
+            <circle class="constellation-star" cx="196.5" cy="91.5" r="2.7"></circle>
+            <circle class="constellation-star constellation-star-major" cx="293.5" cy="9.5" r="4.1"></circle>
+            <text class="constellation-label" x="150" y="40" text-anchor="middle">Cancer </text>
+          </svg>
         </div>
 
         <div class="hero-copy">
@@ -50,11 +55,11 @@
         </div>
 
         <div class="hero-photos" aria-label="Ваши фотографии">
-          <figure class="photo-card photo-card-large" data-photo-label="ваше главное фото">
-            <img id="hero-photo-main" src="photos/photo1.jpg" alt="Наша фотография">
+          <figure class="photo-card photo-card-large">
+            <img id="hero-photo-main" src="photos/photo1.jpg" alt="Наша фотография" decoding="async" fetchpriority="high">
           </figure>
-          <figure class="photo-card photo-card-small" data-photo-label="еще один момент">
-            <img id="hero-photo-side" src="photos/photo2.jpg" alt="Еще одна наша фотография">
+          <figure class="photo-card photo-card-small">
+            <img id="hero-photo-side" src="photos/photo2.jpg" alt="Еще одна наша фотография" decoding="async">
           </figure>
         </div>
       </section>
@@ -62,13 +67,15 @@
       <section id="letter" class="letter-section">
         <div class="letter-layout">
           <div class="letter-meta">
-            <span class="section-kicker">мое письмо</span>
+            <span class="section-kicker">моё письмо</span>
           </div>
-          <article class="letter-paper" aria-label="Письмо">
-            <p id="letter-line-1"></p>
-            <p id="letter-line-2"></p>
-            <p id="letter-line-3"></p>
-          </article>
+          <div class="letter-scene">
+            <article class="letter-paper" aria-label="Письмо">
+              <p id="letter-line-1"></p>
+              <p id="letter-line-2"></p>
+              <p id="letter-line-3"></p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -81,8 +88,10 @@
       </section>
 
       <section class="final-section" aria-label="Финал">
-        <div class="final-card">
-          <h2>А сейчас доверься мне и выйди на улицу</h2>
+        <div class="final-reveal">
+          <button class="final-reveal-button" id="final-reveal-button" type="button" aria-haspopup="dialog" aria-controls="final-message-modal">
+            Но это ещё не всё...
+          </button>
         </div>
       </section>
     </main>
@@ -98,6 +107,14 @@
             <span id="lightbox-text"></span>
           </figcaption>
         </figure>
+      </div>
+    </div>
+
+    <div class="message-modal" id="final-message-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="final-message-title" inert>
+      <button class="message-modal-backdrop" type="button" aria-label="Закрыть"></button>
+      <div class="message-modal-dialog">
+        <button class="message-modal-close" type="button" aria-label="Закрыть">&times;</button>
+        <h2 id="final-message-title">А теперь, пожалуйста, доверься мне и выйди на улицу</h2>
       </div>
     </div>
 
