@@ -21,7 +21,7 @@ const page = {
     {
       image: "photos/photo9.jpg",
       title: "Тепло",
-      text: "Момент, в котором все вокруг будто становилось тише."
+      text: "Момент, в котором всё вокруг будто становилось тише."
     },
     {
       image: "photos/photo4.jpg",
@@ -71,6 +71,40 @@ const page = {
   ]
 };
 
+const createStarField = () => {
+  const starField = document.getElementById("star-field");
+  if (!starField) return;
+
+  // A seeded generator keeps the sky natural-looking without changing on reload.
+  let seed = 1207;
+  const random = () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+
+  const fragment = document.createDocumentFragment();
+  const starCount = window.matchMedia("(max-width: 560px)").matches ? 78 : 110;
+
+  for (let index = 0; index < starCount; index += 1) {
+    const star = document.createElement("span");
+    const chance = random();
+    const kind = chance > 0.93 ? "radiant" : chance > 0.72 ? "glow" : "dust";
+    const warmth = random() > 0.78 ? "warm" : random() > 0.78 ? "cool" : "neutral";
+
+    star.className = `sky-star sky-star-${kind} sky-star-${warmth}`;
+    star.style.setProperty("--x", `${(random() * 100).toFixed(2)}%`);
+    star.style.setProperty("--y", `${(random() * 100).toFixed(2)}%`);
+    star.style.setProperty("--delay", `${(-random() * 9).toFixed(2)}s`);
+    star.style.setProperty("--duration", `${(4.5 + random() * 6).toFixed(2)}s`);
+    star.style.setProperty("--opacity", `${(0.38 + random() * 0.55).toFixed(2)}`);
+    fragment.appendChild(star);
+  }
+
+  starField.appendChild(fragment);
+};
+
+createStarField();
+
 const setText = (id, text) => {
   const node = document.getElementById(id);
   if (node) node.textContent = text;
@@ -101,7 +135,12 @@ const lightboxTitle = document.getElementById("lightbox-title");
 const lightboxText = document.getElementById("lightbox-text");
 const lightboxClose = document.querySelector(".lightbox-close");
 const lightboxBackdrop = document.querySelector(".lightbox-backdrop");
+const finalRevealButton = document.getElementById("final-reveal-button");
+const finalMessageModal = document.getElementById("final-message-modal");
+const finalMessageClose = document.querySelector(".message-modal-close");
+const finalMessageBackdrop = document.querySelector(".message-modal-backdrop");
 let lastOpenedCard = null;
+let finalMessageTrigger = null;
 
 const setLightboxContent = (index) => {
   const memory = page.memories[index];
@@ -135,6 +174,27 @@ const closeLightbox = () => {
   lastOpenedCard?.focus?.({ preventScroll: true });
 };
 
+const openFinalMessage = () => {
+  if (!finalMessageModal) return;
+
+  finalMessageTrigger = document.activeElement;
+  finalMessageModal.removeAttribute("inert");
+  finalMessageModal.classList.add("is-open");
+  finalMessageModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("message-modal-open");
+  finalMessageClose?.focus({ preventScroll: true });
+};
+
+const closeFinalMessage = () => {
+  if (!finalMessageModal) return;
+
+  finalMessageModal.classList.remove("is-open");
+  finalMessageModal.setAttribute("aria-hidden", "true");
+  finalMessageModal.setAttribute("inert", "");
+  document.body.classList.remove("message-modal-open");
+  finalMessageTrigger?.focus?.({ preventScroll: true });
+};
+
 page.memories.forEach((memory, index) => {
   const card = document.createElement("article");
   card.className = "memory-card";
@@ -148,6 +208,8 @@ page.memories.forEach((memory, index) => {
   const title = document.createElement("strong");
   const text = document.createElement("span");
 
+  image.loading = "lazy";
+  image.decoding = "async";
   image.src = memory.image;
   image.alt = memory.title;
   title.textContent = memory.title;
@@ -168,11 +230,19 @@ page.memories.forEach((memory, index) => {
 
 lightboxClose?.addEventListener("click", closeLightbox);
 lightboxBackdrop?.addEventListener("click", closeLightbox);
+finalRevealButton?.addEventListener("click", openFinalMessage);
+finalMessageClose?.addEventListener("click", closeFinalMessage);
+finalMessageBackdrop?.addEventListener("click", closeFinalMessage);
 
 document.addEventListener("keydown", (event) => {
-  if (!lightbox?.classList.contains("is-open")) return;
+  if (event.key !== "Escape") return;
 
-  if (event.key === "Escape") closeLightbox();
+  if (finalMessageModal?.classList.contains("is-open")) {
+    closeFinalMessage();
+    return;
+  }
+
+  if (lightbox?.classList.contains("is-open")) closeLightbox();
 });
 
 const revealObserver = new IntersectionObserver(
@@ -188,7 +258,7 @@ const revealObserver = new IntersectionObserver(
 );
 
 document
-  .querySelectorAll(".letter-meta, .letter-paper, .memory-card, .final-card")
+  .querySelectorAll(".letter-meta, .letter-scene, .memory-card, .final-reveal")
   .forEach((node) => {
     node.classList.add("is-hidden");
     revealObserver.observe(node);
