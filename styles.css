@@ -260,7 +260,7 @@ img {
 
 .constellation-taurus {
   top: 30%;
-  right: -25%;
+  right: -21%;
   width: clamp(250px, 28vw, 390px);
 }
 
