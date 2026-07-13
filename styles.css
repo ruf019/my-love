@@ -634,14 +634,38 @@ h2 {
 
 .final-reveal {
   position: relative;
+  width: min(880px, 100%);
+  display: grid;
+  gap: clamp(30px, 5vw, 52px);
+  place-items: center;
+  padding: clamp(32px, 6vw, 62px) clamp(12px, 4vw, 34px);
+}
+
+.final-reveal-text {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(242, 233, 225, 0.78);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 1.35;
+}
+
+.final-reveal-text strong {
+  display: block;
+  margin-top: 0.45em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.final-reveal-action {
+  position: relative;
   width: min(760px, 100%);
   display: grid;
   place-items: center;
-  padding: clamp(40px, 8vw, 84px) clamp(12px, 4vw, 34px);
 }
 
-.final-reveal::before,
-.final-reveal::after {
+.final-reveal-action::before,
+.final-reveal-action::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -650,11 +674,11 @@ h2 {
   background: linear-gradient(90deg, transparent, rgba(216, 173, 98, 0.72));
 }
 
-.final-reveal::before {
+.final-reveal-action::before {
   left: 0;
 }
 
-.final-reveal::after {
+.final-reveal-action::after {
   right: 0;
   transform: rotate(180deg);
 }
@@ -662,8 +686,8 @@ h2 {
 .final-reveal-button {
   position: relative;
   z-index: 1;
-  min-height: 86px;
-  padding: 22px clamp(34px, 6vw, 68px) 25px;
+  min-height: 108px;
+  padding: 20px clamp(34px, 6vw, 68px) 18px;
   border: 1px solid rgba(216, 173, 98, 0.64);
   color: #382729;
   background:
@@ -683,6 +707,21 @@ h2 {
   letter-spacing: 0;
   text-shadow: 0 1px rgba(255, 255, 255, 0.72);
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+}
+
+.final-reveal-title,
+.final-reveal-hint {
+  display: block;
+}
+
+.final-reveal-hint {
+  margin-top: 10px;
+  color: rgba(87, 53, 50, 0.7);
+  font-family: Inter, Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .final-reveal-button:hover {
@@ -1025,13 +1064,14 @@ h2 {
   .hero-photos {
     width: min(620px, 100%);
     min-height: 0;
-    height: clamp(420px, 64vw, 560px);
+    height: min(calc(95vw - 4px), 568px);
     margin: 0 auto;
   }
 
   .photo-card-large {
     right: 0;
-    top: 0;
+    top: auto;
+    bottom: 30px;
     width: min(76%, 430px);
   }
 
@@ -1097,7 +1137,6 @@ h2 {
 
   .hero-photos {
     width: 100%;
-    height: clamp(330px, 94vw, 420px);
   }
 
   .letter-meta {
@@ -1149,16 +1188,20 @@ h2 {
     padding: 30px 0;
   }
 
-  .final-reveal::before,
-  .final-reveal::after {
+  .final-reveal-action::before,
+  .final-reveal-action::after {
     width: 28px;
   }
 
   .final-reveal-button {
     width: min(100%, 330px);
-    min-height: 76px;
-    padding: 20px 28px 22px;
+    min-height: 102px;
+    padding: 18px 28px 17px;
     font-size: 2rem;
+  }
+
+  .final-reveal-text {
+    font-size: 1.55rem;
   }
 
   .message-modal {
