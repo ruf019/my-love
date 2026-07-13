@@ -47,11 +47,8 @@
 
         <div class="hero-copy">
           <p class="eyebrow">это только для тебя</p>
-          <h1 id="hero-title">Я хочу сказать тебе самое важное</h1>
-          <p id="hero-text" class="hero-text">
-            Не чтобы спорить, не чтобы оправдываться. Просто чтобы ты увидела:
-            я понял, где был неправ, и правда хочу быть рядом иначе.
-          </p>
+          <h1 id="hero-title"></h1>
+          <p id="hero-text" class="hero-text"></p>
         </div>
 
         <div class="hero-photos" aria-label="Ваши фотографии">
@@ -89,9 +86,16 @@
 
       <section class="final-section" aria-label="Финал">
         <div class="final-reveal">
-          <button class="final-reveal-button" id="final-reveal-button" type="button" aria-haspopup="dialog" aria-controls="final-message-modal">
-            Но это ещё не всё...
-          </button>
+          <p class="final-reveal-text">
+            Все эти дни нас разделяли тысячи километров, но над нами всё это время было одно и то же небо.
+            <strong>И самое важное я хочу сказать тебе не здесь.</strong>
+          </p>
+          <div class="final-reveal-action">
+            <button class="final-reveal-button" id="final-reveal-button" type="button" aria-haspopup="dialog" aria-controls="final-message-modal">
+              <span class="final-reveal-title">Но это ещё не всё...</span>
+              <span class="final-reveal-hint">Нажми, чтобы продолжить</span>
+            </button>
+          </div>
         </div>
       </section>
     </main>
