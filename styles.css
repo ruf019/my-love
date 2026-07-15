@@ -1068,6 +1068,10 @@ h2 {
     margin: 0 auto;
   }
 
+  .section-heading {
+    gap: 0;
+  }
+
   .photo-card-large {
     right: 0;
     top: auto;
